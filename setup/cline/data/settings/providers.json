@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "lastUsedProvider": "sapaicore",
+  "modes": {},
+  "providers": {
+    "sapaicore": {
+      "settings": {
+        "provider": "sapaicore",
+        "model": "anthropic--claude-3.5-sonnet",
+        "sap": {
+          "useOrchestrationMode": true
+        }
+      },
+      "updatedAt": "2026-09-07T15:41:23.415Z",
+      "tokenSource": "migration"
+    },
+    "cline-pass": {
+      "settings": {
+        "provider": "cline-pass",
+        "model": "deepseek/deepseek-v4-flash"
+      },
+      "updatedAt": "2026-09-11T07:35:56.054Z",
+      "tokenSource": "manual"
+    }
+  }
+}

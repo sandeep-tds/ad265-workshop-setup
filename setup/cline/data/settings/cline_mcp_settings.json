@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "mdk-mcp": {
+      "type": "stdio",
+      "command": "mdk-mcp",
+      "args": [
+        "--schema-version",
+        "26.6"
+      ]
+    }
+  }
+}

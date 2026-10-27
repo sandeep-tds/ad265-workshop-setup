@@ -1,0 +1,41 @@
+{
+  "welcomeViewCompleted": true,
+  "__vscodeMigrationVersion": 3,
+  "clineVersion": "4.1.17",
+  "remoteRulesToggles": {},
+  "remoteWorkflowToggles": {},
+  "remoteSkillsToggles": {},
+  "__vscodeLegacyMcpSettingsMigration": {
+    "sources": {
+      "vscodeGlobalStorage": {
+        "path": "c:\\Users\\TE-18\\AppData\\Roaming\\Code\\User\\globalStorage\\saoudrizwan.claude-dev\\settings\\cline_mcp_settings.json",
+        "migratedAt": 1788791837468
+      }
+    }
+  },
+  "telemetrySetting": "enabled",
+  "globalWorkflowToggles": {},
+  "openAiHeaders": {},
+  "sapAiCoreUseOrchestrationMode": true,
+  "ocaMode": "internal",
+  "planModeApiProvider": "sapaicore",
+  "actModeApiProvider": "sapaicore",
+  "lastShownAnnouncementId": "4.1",
+  "dismissedBanners": [
+    {
+      "bannerId": "cline-pass-home-promo-v2",
+      "dismissedAt": 1788792134148
+    },
+    {
+      "bannerId": "cline-pass-settings-hint-v1",
+      "dismissedAt": 1789464816758
+    }
+  ],
+  "sapAiCoreBaseUrl": "https://api.ai.prod.eu-central-1.aws.ml.hana.ondemand.com",
+  "sapAiCoreTokenUrl": "https://ad265.authentication.eu10.hana.ondemand.com",
+  "sapAiResourceGroup": "default",
+  "planModeApiModelId": "anthropic--claude-4.5-sonnet",
+  "planModeSapAiCoreDeploymentId": "",
+  "actModeApiModelId": "anthropic--claude-4.5-sonnet",
+  "actModeSapAiCoreDeploymentId": ""
+}
