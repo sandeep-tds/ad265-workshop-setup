@@ -10,9 +10,10 @@ REM  script closes and reopens VS Code (that would kill its own terminal).
 REM
 REM  What it does:
 REM    1. Clones MDKApp (which ships the Cline coach harness) to the Desktop.
-REM    2. Installs required SAP MDK npm packages to C:\Software.
-REM    3. Installs the Cline config (SAP AI Core + mdk-mcp) into the user
+REM    2. Installs the Cline config (SAP AI Core + mdk-mcp) into the user
 REM       profile, then restarts VS Code on the project.
+REM
+REM  NOTE: Run install-npm-packages.bat first to install required npm packages.
 REM
 REM  git and VS Code are validated up front, so a missing tool fails before
 REM  any config is touched. No administrator rights are required. On failure
@@ -62,25 +63,7 @@ if errorlevel 1 (
 )
 :cloned
 
-REM --- 2. Install required SAP MDK npm packages (optional, will not block setup) ---
-where npm >nul 2>&1
-if errorlevel 1 (
-  echo [WARNING] 'npm' was not found on PATH. Skipping npm package installation.
-  echo           Install Node.js/npm and run the packages installation manually if needed.
-  goto :skip_npm
-)
-echo Installing SAP MDK npm packages to C:\Software...
-if not exist "C:\Software" mkdir "C:\Software"
-npm install --prefix C:\Software @sap/mdk-tools @sap/mdk-mcp-server @sap/generator-mdk
-if errorlevel 1 (
-  echo [WARNING] npm install failed. You may need to install these packages manually:
-  echo           npm install --prefix C:\Software @sap/mdk-tools @sap/mdk-mcp-server @sap/generator-mdk
-) else (
-  echo SAP MDK packages installed successfully.
-)
-:skip_npm
-
-REM --- 3. Resolve VS Code up front, so a missing install fails BEFORE any
+REM --- 2. Resolve VS Code up front, so a missing install fails BEFORE any
 REM        config is backed up or replaced (leaving the user's config intact).
 if exist "%LOCALAPPDATA%\Programs\Microsoft VS Code\Code.exe" set "CODEEXE=%LOCALAPPDATA%\Programs\Microsoft VS Code\Code.exe"
 if not defined CODEEXE if exist "%ProgramFiles%\Microsoft VS Code\Code.exe" set "CODEEXE=%ProgramFiles%\Microsoft VS Code\Code.exe"
@@ -93,7 +76,7 @@ echo [ERROR] VS Code was not found. Install it or add the 'code' command to PATH
 goto :fail
 :vscode_ok
 
-REM --- 4a. Back up any existing Cline config (single rolling backup) ---
+REM --- 3a. Back up any existing Cline config (single rolling backup) ---
 if not exist "%CLINE_DEST%" goto :backup_done
 echo Backing up existing Cline config to %CLINE_BAK% ...
 if exist "%CLINE_BAK%" rmdir /S /Q "%CLINE_BAK%"
@@ -105,7 +88,7 @@ if errorlevel 1 goto :fail
 set "_BACKED_UP=1"
 :backup_done
 
-REM --- 4b. Close VS Code so it cannot rewrite the config on exit ---
+REM --- 3b. Close VS Code so it cannot rewrite the config on exit ---
 tasklist /FI "IMAGENAME eq Code.exe" 2>nul | find /I "Code.exe" >nul
 if errorlevel 1 goto :vscode_closed
 echo Closing VS Code...
@@ -124,7 +107,7 @@ timeout /t 1 /nobreak >nul
 goto :vscode_wait
 :vscode_closed
 
-REM --- 4c. Install the Cline config (replace entirely; backup taken above) ---
+REM --- 3c. Install the Cline config (replace entirely; backup taken above) ---
 echo Installing Cline config ...
 if exist "%CLINE_DEST%" rmdir /S /Q "%CLINE_DEST%"
 if exist "%CLINE_DEST%" echo [ERROR] Existing Cline config could not be removed (a file may be in use).
@@ -143,7 +126,7 @@ if defined _BACKED_UP xcopy "%CLINE_BAK%" "%CLINE_DEST%\" /E /I /H /Y >nul
 goto :fail
 :config_done
 
-REM --- 4d. Reopen VS Code on the MDKApp project (resolved in step 3) ---
+REM --- 3d. Reopen VS Code on the MDKApp project (resolved in step 2) ---
 echo Starting VS Code on MDKApp...
 if defined CODEEXE (
   start "" "%CODEEXE%" "%PROJECT%"
