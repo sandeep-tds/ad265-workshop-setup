@@ -62,19 +62,23 @@ if errorlevel 1 (
 )
 :cloned
 
-REM --- 2. Install required SAP MDK npm packages ---
+REM --- 2. Install required SAP MDK npm packages (optional, will not block setup) ---
 where npm >nul 2>&1
 if errorlevel 1 (
-  echo [ERROR] 'npm' was not found on PATH. Install Node.js/npm first.
-  goto :fail
+  echo [WARNING] 'npm' was not found on PATH. Skipping npm package installation.
+  echo           Install Node.js/npm and run the packages installation manually if needed.
+  goto :skip_npm
 )
 echo Installing SAP MDK npm packages to C:\Software...
 if not exist "C:\Software" mkdir "C:\Software"
 npm install --prefix C:\Software @sap/mdk-tools @sap/mdk-mcp-server @sap/generator-mdk
 if errorlevel 1 (
-  echo [ERROR] npm install failed. Check your network connection and npm configuration.
-  goto :fail
+  echo [WARNING] npm install failed. You may need to install these packages manually:
+  echo           npm install --prefix C:\Software @sap/mdk-tools @sap/mdk-mcp-server @sap/generator-mdk
+) else (
+  echo SAP MDK packages installed successfully.
 )
+:skip_npm
 
 REM --- 3. Resolve VS Code up front, so a missing install fails BEFORE any
 REM        config is backed up or replaced (leaving the user's config intact).
